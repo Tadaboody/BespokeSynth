@@ -979,6 +979,10 @@ pair<int,int> ScriptModule::RunScript(double time, int lineStart/*=-1*/, int lin
    py::exec(GetThisName()+" = scriptmodule.get_me("+ofToString(mScriptModuleIndex)+")", py::globals());
    string code = mCodeEntry->GetText(true);
    vector<string> lines = ofSplitString(code, "\n");
+   if(lines.size() == 0){
+      TheSynth->LogEvent("Trying to run an empty script block.", kLogEventType_Verbose);
+      return std::make_pair(0,0);
+   }
    
    size_t executionStartLine = 0;
    size_t executionEndLine = (int)lines.size();
